@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript GIF viewer</title>
+
+<script>
+ var index = 0;
+ var fileCount = 0;
+ var axo = new ActiveXObject("Scripting.FileSystemObject");
+ var absolutePath = new String();
+ var imageList = [];
+ function nextImg() {
+	if( index < imageList.length - 1)
+	{
+		index = index + 1;
+	}
+	else {
+		index = 0;
+	}
+    console.log("Next: displaying " + imageList[index]);
+	document.getElementById("myImg").src = absolutePath + imageList[index];
+ }
+ function prevImg() {
+	if( index > 0)
+	{
+		index = index - 1;
+	}
+	else {
+		index = imageList.length - 1;
+	}
+    console.log("Previous: displaying " + imageList[index]);
+	document.getElementById("myImg").src = absolutePath + imageList[index];
+    
+ }
+ function findGifs() {
+    imageList = [];
+    
+    if (path.value.length > 0 && axo.FolderExists(path.value)){        
+        document.getElementById("previous").disabled = false;
+        document.getElementById("next").disabled = false;
+        absolutePath = path.value.replace(/\\/g,"/");
+        absolutePath = "file:///" + absolutePath + "/";
+        console.log("absolutePath: " + absolutePath);
+        var enumerator = new Enumerator(axo.GetFolder(path.value).Files);
+        for (i=0; !enumerator.atEnd();enumerator.moveNext())
+        {    
+            if ( enumerator.item().name.slice(enumerator.item().name.lastIndexOf(".")+1).toLowerCase() === "gif" )
+            {
+                imageList.push(enumerator.item().name);
+                fileCount+=1;
+            }
+        }
+        console.log( fileCount + " number of files discovered");
+        document.getElementById("myImg").src = absolutePath + imageList[0];
+    }
+    else {
+        alert("Incorrect path");
+    }
+ }
+</script>
+</head>
+<body >
+
+<div id="top-bar" height="15%">
+<p>Path:</p>
+<input size=50 type=text value="C:\" id=path name=path >
+<br/>
+<button id="finder" onclick=findGifs() >Find GIFs</button>
+<br/>
+</div>
+
+<div width="10%" style="float:left;margin-right:20px">
+<button id="previous" onclick="prevImg()" disabled>Previous</button>
+<br/>
+<button id="next" onclick="nextImg()" disabled>Next</button>
+</div>
+
+<div width="80%">
+<img id="myImg" alt="No GIF found"/>
+</div>
+
+
+</body>
+</html>
