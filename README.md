@@ -7,4 +7,4 @@ Thankfully, most modern browsers support GIF and IE is one of them.
 This is my humble attempt to leverage the power of JavaScript to enable viewing GIFs on Windows without using any third-party apps.
 Just run the latest **Jifer.html** and paste the directory path in the text box. Click **Find GIFs** and navigate using **Previous** and **Next** buttons.
 
-
+*Note: This works only on Internet Explorer. Tested with IE 8+*
